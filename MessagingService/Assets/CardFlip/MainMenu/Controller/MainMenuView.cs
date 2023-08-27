@@ -36,13 +36,14 @@ public class MainMenuView : BaseUIViewController<MainMenuViewRefs>, IMainMenuGam
     private void StartGame()
     {
         GameEvents.DoFireCloseView(Views.MainMenuView);
-        GameEvents.DoFireShowView(Views.GamePlayGridView, _gameMode);
+        GameEvents.DoFireShowView(Views.GamePlayGridView, new GridInitialData() { GameMode = _gameMode, isResumeGame = false });
     }
 
     private void ResumeGame()
     {
         GameEvents.DoFireCloseView(Views.MainMenuView);
         //GameEvents.DoFireResumeBattle();
+        GameEvents.DoFireShowView(Views.GamePlayGridView, new GridInitialData() { GameMode = _gameMode, isResumeGame = true });
     }
 
     public override void Close()
@@ -59,4 +60,10 @@ public class MainMenuView : BaseUIViewController<MainMenuViewRefs>, IMainMenuGam
 
         _gameMode = gameMode;
     }
+}
+
+public struct GridInitialData
+{
+    public GameMode GameMode;
+    public bool isResumeGame;
 }

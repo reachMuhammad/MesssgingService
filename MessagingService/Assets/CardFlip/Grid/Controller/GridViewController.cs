@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
@@ -13,7 +14,6 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
     private int _matchesCount;
     private int _turnsCount;
     private GameState _gameState;
-
 
     public override void RegisterEvents()
     {
@@ -29,24 +29,44 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
     {
         base.Show(model);
 
-        _gridSize.x = 2;
-        _gridSize.y = 2;
+        var gridInitialData = (GridInitialData)model;
+
+        _gridSize.x = 4;
+        _gridSize.y = 4;
 
         _tilesDict = new Dictionary<int, RectTransform>();
         _cardsDict = new Dictionary<int, CardView>();
+        _gameState.GridState = new Dictionary<int, int>();
 
         selectedCardData.CardId = -1;
         selectedCardData.TileId = -1;
 
-        _matchesCount = 0;
-        _turnsCount = 0;
-
-        //        _ViewRefs.ComboViewController.Initialize();
-
         CalculateCardSize();
         SpawnGrid();
-        GenerateCards();
+
+        if (!gridInitialData.isResumeGame)
+        {
+            GenerateCards();
+        }
+        else
+        {
+            LoadState();
+        }
+
         GameStart();
+    }
+
+    private void LoadState()
+    {
+        _gameState = JsonConvert.DeserializeObject<GameState>(_ViewRefs.DBGameStateData.GetValue());
+
+        SpawnCards(_gameState.GridState);
+
+        _matchesCount = _gameState.MatchesCount;
+        _ViewRefs.MatchesCount.text = _matchesCount.ToString();
+
+        _turnsCount = _gameState.TurnsCount;
+        _ViewRefs.TurnsCount.text = _turnsCount.ToString();
     }
 
     public void CalculateCardSize()
@@ -111,6 +131,9 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         }
 
         SpawnCards(cardsData);
+
+        _gameState.GridState = cardsData;
+        SaveGameState();
     }
 
     private void SpawnCards(Dictionary<int, int> cardsData)
@@ -151,6 +174,8 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         _turnsCount++;
         _ViewRefs.TurnsCount.text = _turnsCount.ToString();
 
+        _gameState.TurnsCount = _turnsCount;
+
         if (cardId == selectedCardData.CardId)
         {
             CorrectCardsSelection(selectedCardData.TileId, tileId);
@@ -158,6 +183,8 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         else
         {
             WrongSelection(selectedCardData.TileId, tileId);
+
+            SaveGameState();
         }
 
         selectedCardData.CardId = -1;
@@ -173,12 +200,19 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         _matchesCount++;
         _ViewRefs.MatchesCount.text = _matchesCount.ToString();
 
+        _gameState.MatchesCount = _matchesCount;
+
         DOVirtual.DelayedCall(1, () =>
         {
             _cardsDict[firstCardTileId].Destroy();
             _cardsDict[secondCardTileId].Destroy();
             _cardsDict.Remove(firstCardTileId);
             _cardsDict.Remove(secondCardTileId);
+
+            _gameState.GridState.Remove(firstCardTileId);
+            _gameState.GridState.Remove(secondCardTileId);
+
+            SaveGameState();
         });
 
         DOVirtual.DelayedCall(2, () =>
@@ -203,6 +237,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
 
     private void GameOver()
     {
+        ClearGameState();
         GameEvents.DoFireCloseView(Views.GamePlayGridView);
         GameEvents.DoFireShowView(Views.GameOverView);
     }
@@ -211,6 +246,18 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
     {
         GameEvents.DoFireCloseView(Views.GamePlayGridView);
         GameEvents.DoFireShowView(Views.MainMenuView);
+    }
+
+    private void ClearGameState()
+    {
+        _ViewRefs.DBGameStateData.SetValue("");
+        _ViewRefs.DBGameStateData.Save();
+    }
+
+    private void SaveGameState()
+    {
+        _ViewRefs.DBGameStateData.SetValue(JsonConvert.SerializeObject(_gameState));
+        _ViewRefs.DBGameStateData.Save();
     }
 }
 
