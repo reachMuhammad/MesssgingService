@@ -37,6 +37,8 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         selectedCardData.CardId = -1;
         selectedCardData.TileId = -1;
 
+        _ViewRefs.ComboViewController.Initialize();
+
         CalculateCardSize();
         SpawnGrid();
         GenerateCards();
@@ -159,6 +161,8 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         if (!_cardsDict.ContainsKey(firstCardTileId) || !_cardsDict.ContainsKey(secondCardTileId))
             return;
 
+        GameEvents.DoFireCorrectSelection();
+
         DOVirtual.DelayedCall(1, () =>
         {
             _cardsDict[firstCardTileId].Destroy();
@@ -170,12 +174,15 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
 
     private void WrongSelection(int firstCardTileId, int secondCardTileId)
     {
+        GameEvents.DoFireWrongSelection();
+
         DOVirtual.DelayedCall(1, () =>
         {
             _cardsDict[firstCardTileId].HideCard();
             _cardsDict[secondCardTileId].HideCard();
         });
     }
+
 }
 
 public struct SelectedCardData

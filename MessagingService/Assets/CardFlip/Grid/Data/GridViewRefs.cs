@@ -6,4 +6,5 @@ public class GridViewRefs : BaseUIViewRefs
     public Transform CardsContainer;
     public RectTransform GridRectTransform;
     public RectTransform Tile;
+    public ComboViewController ComboViewController;
 }
