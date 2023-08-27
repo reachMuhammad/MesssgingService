@@ -60,11 +60,11 @@ public class DBString : String, IDBVariable
 
     public virtual void Load()
     {
-        if (ResetToDefaultOnPlay)
-        {
-            Value = DefaultValue;
-            return;
-        }
+        //if (ResetToDefaultOnPlay)
+        //{
+        //    Value = DefaultValue;
+        //    return;
+        //}
 
         if (string.IsNullOrEmpty(Key) || !DatabaseManager.HasKey(this, Key))
         {
