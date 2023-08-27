@@ -19,6 +19,7 @@ public class GameOverViewController : BaseUIViewController<GameOverViewRefs>
 
     private void RestartGame()
     {
+        SoundsController.PlaySound(SoundType.ButtonClick);
         GameEvents.DoFireCloseView(Views.GameOverView);
         GameEvents.DoFireShowView(Views.MainMenuView);
     }

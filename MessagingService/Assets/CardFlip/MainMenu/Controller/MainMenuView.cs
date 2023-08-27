@@ -37,12 +37,15 @@ public class MainMenuView : BaseUIViewController<MainMenuViewRefs>, IMainMenuGam
 
     private void StartGame()
     {
+        SoundsController.PlaySound(SoundType.ButtonClick);
+
         GameEvents.DoFireCloseView(Views.MainMenuView);
         GameEvents.DoFireShowView(Views.GamePlayGridView, new GridInitialData() { GameMode = _gameMode, isResumeGame = false });
     }
 
     private void ResumeGame()
     {
+        SoundsController.PlaySound(SoundType.ButtonClick);
         GameEvents.DoFireCloseView(Views.MainMenuView);
         //GameEvents.DoFireResumeBattle();
         GameEvents.DoFireShowView(Views.GamePlayGridView, new GridInitialData() { GameMode = _gameMode, isResumeGame = true });

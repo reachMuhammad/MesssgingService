@@ -202,6 +202,8 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
 
         DOVirtual.DelayedCall(1, () =>
         {
+            SoundsController.PlaySound(SoundType.CorrectSelection);
+
             _cardsDict[firstCardTileId].Destroy();
             _cardsDict[secondCardTileId].Destroy();
             _cardsDict.Remove(firstCardTileId);
@@ -228,6 +230,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
 
         DOVirtual.DelayedCall(1, () =>
         {
+            SoundsController.PlaySound(SoundType.WrongSelection);
             _cardsDict[firstCardTileId].HideCard();
             _cardsDict[secondCardTileId].HideCard();
         });

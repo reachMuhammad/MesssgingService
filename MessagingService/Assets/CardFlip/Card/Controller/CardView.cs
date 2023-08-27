@@ -38,6 +38,8 @@ public class CardView : MonoBehaviour
         if (_isRevealed)
             return;
 
+        SoundsController.PlaySound(SoundType.CardSelect);
+
         ShowCard();
 
         _gridCardHandler.CardSelected(_cardId, _tileId);

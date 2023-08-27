@@ -23,6 +23,8 @@ public class GameModeItem : MonoBehaviour
 
     private void ModeClicked()
     {
+        SoundsController.PlaySound(SoundType.ButtonClick);
+
         _mainMenuGameModeHandler.GameModeChanged(_gameMode);
 
         SetState(true);
