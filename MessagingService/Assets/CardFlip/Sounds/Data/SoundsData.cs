@@ -19,5 +19,6 @@ public enum SoundType
     ButtonClick,
     CardSelect,
     CorrectSelection,
-    WrongSelection
+    WrongSelection,
+    GameOver
 }

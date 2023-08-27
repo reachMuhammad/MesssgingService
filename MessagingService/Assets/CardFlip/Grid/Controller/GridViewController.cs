@@ -240,6 +240,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
 
     private void GameOver()
     {
+        SoundsController.PlaySound(SoundType.GameOver);
         ClearGameState();
         GameEvents.DoFireCloseView(Views.GamePlayGridView);
         GameEvents.DoFireShowView(Views.GameOverView);
