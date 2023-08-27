@@ -3,6 +3,6 @@ using UnityEngine;
 
 public class ClearPrefsEditor
 {
-    [MenuItem("BattleField/Clear Prefs")]
+    [MenuItem("CardFlip/Clear Prefs")]
     private static void ClearPrefs() => PlayerPrefs.DeleteAll();
 }

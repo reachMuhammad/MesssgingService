@@ -23,6 +23,8 @@ public class MainMenuView : BaseUIViewController<MainMenuViewRefs>, IMainMenuGam
 
     public override void Show(object model = null)
     {
+        _gameMode = GameMode.Hard;
+
         base.Show(model);
 
         _ViewRefs.ResumeGameButton.gameObject.SetActive(_ViewRefs.DBGameStateData.GetValue() != "");

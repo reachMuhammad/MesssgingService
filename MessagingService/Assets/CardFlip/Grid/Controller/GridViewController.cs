@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -31,8 +32,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
 
         var gridInitialData = (GridInitialData)model;
 
-        _gridSize.x = 4;
-        _gridSize.y = 4;
+        _gridSize = _ViewRefs.GridViewConfigs.GridGameModeData.FirstOrDefault(x => x.GameMode == gridInitialData.GameMode).GridSize;
 
         _tilesDict = new Dictionary<int, RectTransform>();
         _cardsDict = new Dictionary<int, CardView>();
@@ -43,30 +43,28 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
 
         CalculateCardSize();
         SpawnGrid();
-
-        if (!gridInitialData.isResumeGame)
-        {
-            GenerateCards();
-        }
-        else
-        {
-            LoadState();
-        }
-
+        LoadState(gridInitialData.isResumeGame);
         GameStart();
     }
 
-    private void LoadState()
+    private void LoadState(bool isResumeGame)
     {
-        _gameState = JsonConvert.DeserializeObject<GameState>(_ViewRefs.DBGameStateData.GetValue());
+        if (isResumeGame)
+        {
+            _gameState = JsonConvert.DeserializeObject<GameState>(_ViewRefs.DBGameStateData.GetValue());
 
-        SpawnCards(_gameState.GridState);
+            SpawnCards(_gameState.GridState);
 
-        _matchesCount = _gameState.MatchesCount;
-        _ViewRefs.MatchesCount.text = _matchesCount.ToString();
+            _matchesCount = _gameState.MatchesCount;
+            _ViewRefs.MatchesCount.text = _matchesCount.ToString();
 
-        _turnsCount = _gameState.TurnsCount;
-        _ViewRefs.TurnsCount.text = _turnsCount.ToString();
+            _turnsCount = _gameState.TurnsCount;
+            _ViewRefs.TurnsCount.text = _turnsCount.ToString();
+        }
+        else
+        {
+            GenerateCards();
+        }
     }
 
     public void CalculateCardSize()
