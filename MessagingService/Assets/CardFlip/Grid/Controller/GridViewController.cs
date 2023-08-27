@@ -24,6 +24,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
     public override void UnregisterEvents()
     {
         _ViewRefs.HomeButton.onClick.RemoveListener(HomeButtonClicked);
+        _ViewRefs.ComboViewController.Close();
     }
 
     public override void Show(object model = null)
@@ -37,6 +38,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         _tilesDict = new Dictionary<int, RectTransform>();
         _cardsDict = new Dictionary<int, CardView>();
         _gameState.GridState = new Dictionary<int, int>();
+        _ViewRefs.ComboViewController.Initialize();
 
         selectedCardData.CardId = -1;
         selectedCardData.TileId = -1;
