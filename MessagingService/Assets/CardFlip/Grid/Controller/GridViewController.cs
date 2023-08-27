@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GridViewController : BaseUIViewController<GridViewRefs>
+public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
 {
     public override void RegisterEvents()
     {
@@ -13,5 +13,9 @@ public class GridViewController : BaseUIViewController<GridViewRefs>
     public override void Show(object model = null)
     {
         base.Show(model);
+    }
+
+    void IGridCard.CardSelected(int cardId)
+    {
     }
 }
