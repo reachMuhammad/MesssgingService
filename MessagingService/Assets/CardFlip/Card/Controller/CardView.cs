@@ -8,14 +8,20 @@ public class CardView : MonoBehaviour
     private int _cardId;
     private bool _isRevealed;
 
-    public void Initialize(IGridCard gridCard, int cardId)
+    public void Initialize(IGridCard gridCard, CardData cardData)
     {
-        _cardId = cardId;
+        _cardId = cardData.CardId;
+       // _cardViewRefs.CardImage.sprite = cardData.CardSprite;
         _gridCardHandler = gridCard;
 
         RegisterEvents();
 
         HideCard();
+    }
+
+    public void SetCardSize(float cardSize)
+    {
+        _cardViewRefs.CardRectTransform.sizeDelta = new Vector2(cardSize, cardSize);
     }
 
     private void RegisterEvents()

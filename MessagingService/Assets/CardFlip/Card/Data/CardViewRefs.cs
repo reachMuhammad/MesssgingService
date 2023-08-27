@@ -7,4 +7,5 @@ public class CardViewRefs : MonoBehaviour
     public Transform CardFront;
     public Transform CardBack;
     public Button CardButton;
+    public RectTransform CardRectTransform;
 }
