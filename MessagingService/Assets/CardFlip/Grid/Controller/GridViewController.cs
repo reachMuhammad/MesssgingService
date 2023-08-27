@@ -12,22 +12,25 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
     private float _initialCardDisplayTime = 2;
     private int _matchesCount;
     private int _turnsCount;
+    private GameState _gameState;
 
-    
+
     public override void RegisterEvents()
     {
+        _ViewRefs.HomeButton.onClick.AddListener(HomeButtonClicked);
     }
 
     public override void UnregisterEvents()
     {
+        _ViewRefs.HomeButton.onClick.RemoveListener(HomeButtonClicked);
     }
 
     public override void Show(object model = null)
     {
         base.Show(model);
 
-        _gridSize.x = 5;
-        _gridSize.y = 6;
+        _gridSize.x = 2;
+        _gridSize.y = 2;
 
         _tilesDict = new Dictionary<int, RectTransform>();
         _cardsDict = new Dictionary<int, CardView>();
@@ -177,6 +180,14 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
             _cardsDict.Remove(firstCardTileId);
             _cardsDict.Remove(secondCardTileId);
         });
+
+        DOVirtual.DelayedCall(2, () =>
+        {
+            if (_cardsDict.Count <= 0)
+            {
+                GameOver();
+            }
+        });
     }
 
     private void WrongSelection(int firstCardTileId, int secondCardTileId)
@@ -190,10 +201,28 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         });
     }
 
+    private void GameOver()
+    {
+        GameEvents.DoFireCloseView(Views.GamePlayGridView);
+        GameEvents.DoFireShowView(Views.GameOverView);
+    }
+
+    private void HomeButtonClicked()
+    {
+        GameEvents.DoFireCloseView(Views.GamePlayGridView);
+        GameEvents.DoFireShowView(Views.MainMenuView);
+    }
 }
 
 public struct SelectedCardData
 {
     public int CardId;
     public int TileId;
+}
+
+public struct GameState
+{
+    public int MatchesCount;
+    public int TurnsCount;
+    public Dictionary<int, int> GridState;
 }

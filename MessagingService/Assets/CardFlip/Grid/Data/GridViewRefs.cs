@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridViewRefs : BaseUIViewRefs
 {
@@ -11,4 +12,5 @@ public class GridViewRefs : BaseUIViewRefs
     public TextMeshProUGUI MatchesCount;
     public TextMeshProUGUI TurnsCount;
     public DBString DBGameStateData;
+    public Button HomeButton;
 }
