@@ -10,6 +10,8 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
     private Dictionary<int, CardView> _cardsDict;
     private SelectedCardData selectedCardData;
     private float _initialCardDisplayTime = 2;
+    private int _matchesCount;
+    private int _turnsCount;
 
     private void Start()
     {
@@ -37,7 +39,10 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         selectedCardData.CardId = -1;
         selectedCardData.TileId = -1;
 
-        _ViewRefs.ComboViewController.Initialize();
+        _matchesCount = 0;
+        _turnsCount = 0;
+
+        //        _ViewRefs.ComboViewController.Initialize();
 
         CalculateCardSize();
         SpawnGrid();
@@ -144,6 +149,9 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
             return;
         }
 
+        _turnsCount++;
+        _ViewRefs.TurnsCount.text = _turnsCount.ToString();
+
         if (cardId == selectedCardData.CardId)
         {
             CorrectCardsSelection(selectedCardData.TileId, tileId);
@@ -162,6 +170,9 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
             return;
 
         GameEvents.DoFireCorrectSelection();
+
+        _matchesCount++;
+        _ViewRefs.MatchesCount.text = _matchesCount.ToString();
 
         DOVirtual.DelayedCall(1, () =>
         {

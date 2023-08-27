@@ -16,22 +16,22 @@ MonoBehaviour:
   CardObject: {fileID: 4413611053550617209, guid: 3c64e6a71f9254357841d5eac20d5e3d, type: 3}
   CardsData:
   - CardId: 0
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: 928a9b91b12ed47b39d63765ea910ace, type: 3}
   - CardId: 1
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: fcbe86f685fe149c1bc7e89060f85d86, type: 3}
   - CardId: 2
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: 9b0c52d7b055a413dabc73a514887c27, type: 3}
   - CardId: 3
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: 10da9191e036c48afa4efcc04c6f0cc5, type: 3}
   - CardId: 4
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: c770f32bae3c24ddabc9dd6654b0ce67, type: 3}
   - CardId: 5
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: ef725efcef4ed48cfbafbd4252cec207, type: 3}
   - CardId: 6
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: d7d4bbed5977342659c90ea724b65b8b, type: 3}
   - CardId: 7
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: cd7e68749c1d84d19b08ed43c2815ecb, type: 3}
   - CardId: 8
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: b58ecc1364e3a46819e10b61fd11b319, type: 3}
   - CardId: 9
-    CardSprite: {fileID: 0}
+    CardSprite: {fileID: 21300000, guid: 4fceeed1a3c64419a9f0a35ed8096e25, type: 3}

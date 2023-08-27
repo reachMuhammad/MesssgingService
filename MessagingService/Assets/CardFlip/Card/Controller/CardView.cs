@@ -14,7 +14,7 @@ public class CardView : MonoBehaviour
     {
         _cardId = cardData.CardId;
         _tileId = tileId;
-        // _cardViewRefs.CardImage.sprite = cardData.CardSprite;
+         _cardViewRefs.CardImage.sprite = cardData.CardSprite;
         _cardViewRefs.CardNo.text = cardData.CardId.ToString();
          _gridCardHandler = gridCard;
 
@@ -35,21 +35,21 @@ public class CardView : MonoBehaviour
 
     private void CardClicked()
     {
+        if (_isRevealed)
+            return;
+
         ShowCard();
+
+        _gridCardHandler.CardSelected(_cardId, _tileId);
     }
 
     private void ShowCard()
     {
-        if (_isRevealed)
-            return;
-
         _isRevealed = true;
 
         DOTween.Sequence()
             .Append(_cardViewRefs.CardBack.transform.DOScaleX(0, 0.1f))
             .Append(_cardViewRefs.CardFront.transform.DOScaleX(1,0.1f));
-
-        _gridCardHandler.CardSelected(_cardId, _tileId);
     }
 
     public void HideCard()

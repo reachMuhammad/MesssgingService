@@ -362,10 +362,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 980216323}
     m_Modifications:
-    - target: {fileID: 142016662, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
-      propertyPath: Tile
-      value: 
-      objectReference: {fileID: 1772619481}
     - target: {fileID: 1357461603359537656, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
       propertyPath: m_Name
       value: GameplayGridView
@@ -454,29 +450,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5798894762214195792, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1886
+    - target: {fileID: 2383461631278518638, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
+      propertyPath: m_text
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5798894762214195792, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 1134
-      objectReference: {fileID: 0}
-    - target: {fileID: 5798894762214195792, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 235
-      objectReference: {fileID: 0}
-    - target: {fileID: 5798894762214195792, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
-      propertyPath: m_AnchoredPosition.y
+    - target: {fileID: 4161226293702078963, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
+      propertyPath: m_text
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
---- !u!224 &1772619481 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1772619481, guid: e7f15f61b2c3344f8a9d6ff45915806e, type: 3}
-  m_PrefabInstance: {fileID: 1551896289}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2068499168
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +557,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
