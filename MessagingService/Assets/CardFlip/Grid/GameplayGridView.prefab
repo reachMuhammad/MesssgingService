@@ -107,8 +107,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 254.20007, y: 0}
-  m_SizeDelta: {x: 1925.2, y: 1370}
+  m_AnchoredPosition: {x: 235, y: 0}
+  m_SizeDelta: {x: 1886, y: 1134}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1357461603359537656
 GameObject:
@@ -164,7 +164,7 @@ MonoBehaviour:
   CardsConfigs: {fileID: 11400000, guid: 8ddfc2e74431d4c1a9ce2d6e1a3dd63b, type: 2}
   CardsContainer: {fileID: 811288267}
   GridRectTransform: {fileID: 5798894762214195792}
-  Tile: {fileID: 1772619480}
+  Tile: {fileID: 1772619481}
 --- !u!114 &142016663
 MonoBehaviour:
   m_ObjectHideFlags: 0

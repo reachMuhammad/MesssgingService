@@ -17,3 +17,21 @@ MonoBehaviour:
   CardsData:
   - CardId: 0
     CardSprite: {fileID: 0}
+  - CardId: 1
+    CardSprite: {fileID: 0}
+  - CardId: 2
+    CardSprite: {fileID: 0}
+  - CardId: 3
+    CardSprite: {fileID: 0}
+  - CardId: 4
+    CardSprite: {fileID: 0}
+  - CardId: 5
+    CardSprite: {fileID: 0}
+  - CardId: 6
+    CardSprite: {fileID: 0}
+  - CardId: 7
+    CardSprite: {fileID: 0}
+  - CardId: 8
+    CardSprite: {fileID: 0}
+  - CardId: 9
+    CardSprite: {fileID: 0}

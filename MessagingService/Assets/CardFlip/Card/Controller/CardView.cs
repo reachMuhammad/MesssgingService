@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class CardView : MonoBehaviour
 {
@@ -6,17 +7,20 @@ public class CardView : MonoBehaviour
 
     private IGridCard _gridCardHandler;
     private int _cardId;
+    private int _tileId;
     private bool _isRevealed;
 
-    public void Initialize(IGridCard gridCard, CardData cardData)
+    public void Initialize(IGridCard gridCard, CardData cardData, int tileId)
     {
         _cardId = cardData.CardId;
-       // _cardViewRefs.CardImage.sprite = cardData.CardSprite;
-        _gridCardHandler = gridCard;
+        _tileId = tileId;
+        // _cardViewRefs.CardImage.sprite = cardData.CardSprite;
+        _cardViewRefs.CardNo.text = cardData.CardId.ToString();
+         _gridCardHandler = gridCard;
 
         RegisterEvents();
 
-        HideCard();
+        ShowCard();
     }
 
     public void SetCardSize(float cardSize)
@@ -41,17 +45,22 @@ public class CardView : MonoBehaviour
 
         _isRevealed = true;
 
-        _cardViewRefs.CardFront.gameObject.SetActive(true);
-        _cardViewRefs.CardBack.gameObject.SetActive(false);
+        DOTween.Sequence()
+            .Append(_cardViewRefs.CardBack.transform.DOScaleX(0, 0.1f))
+            .Append(_cardViewRefs.CardFront.transform.DOScaleX(1,0.1f));
 
-        _gridCardHandler.CardSelected(_cardId);
+        _gridCardHandler.CardSelected(_cardId, _tileId);
     }
 
-    private void HideCard()
+    public void HideCard()
     {
-        _isRevealed = false;
+        DOTween.Sequence()
+            .Append(_cardViewRefs.CardFront.transform.DOScaleX(0, 0.1f))
+            .Append(_cardViewRefs.CardBack.transform.DOScaleX(1, 0.1f)).OnComplete(()=> { _isRevealed = false; });
+    }
 
-        _cardViewRefs.CardFront.gameObject.SetActive(false);
-        _cardViewRefs.CardBack.gameObject.SetActive(true);
+    public void Destroy()
+    {
+        DOTween.Sequence().Append(_cardViewRefs.transform.DOScale(0, 0.2f).SetEase(Ease.InBack)).OnComplete(() => { Destroy(gameObject); });   
     }
 }

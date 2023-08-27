@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
@@ -6,6 +7,9 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
     private Vector2 _gridSize;
     private float _tileSize = 0;
     private Dictionary<int, RectTransform> _tilesDict;
+    private Dictionary<int, CardView> _cardsDict;
+    private SelectedCardData selectedCardData;
+    private float _initialCardDisplayTime = 2;
 
     private void Start()
     {
@@ -28,10 +32,15 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         _gridSize.y = 4;
 
         _tilesDict = new Dictionary<int, RectTransform>();
+        _cardsDict = new Dictionary<int, CardView>();
+
+        selectedCardData.CardId = -1;
+        selectedCardData.TileId = -1;
 
         CalculateCardSize();
         SpawnGrid();
         GenerateCards();
+        GameStart();
     }
 
     public void CalculateCardSize()
@@ -106,12 +115,71 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         {
             var card = Instantiate(_ViewRefs.CardsConfigs.CardObject, _tilesDict[cardData.Key]);
             var cardView = card.GetComponent<CardView>();
-            cardView.Initialize(this, _ViewRefs.CardsConfigs.CardsData[cardData.Value]);
+            cardView.Initialize(this, _ViewRefs.CardsConfigs.CardsData[cardData.Value], cardData.Key);
             cardView.SetCardSize(cardSize);
+            _cardsDict.Add(cardData.Key, cardView);
         }
     }
 
-    void IGridCard.CardSelected(int cardId)
+    private void GameStart()
     {
+        DOVirtual.DelayedCall(_initialCardDisplayTime, () =>
+        {
+            foreach (KeyValuePair<int, CardView> cardData in _cardsDict)
+            {
+                cardData.Value.HideCard();
+            }
+        });
     }
+
+    void IGridCard.CardSelected(int cardId, int tileId)
+    {
+        if (selectedCardData.CardId == -1)
+        {
+            selectedCardData.CardId = cardId;
+            selectedCardData.TileId = tileId;
+
+            return;
+        }
+
+        if (cardId == selectedCardData.CardId)
+        {
+            CorrectCardsSelection(selectedCardData.TileId, tileId);
+        }
+        else
+        {
+            WrongSelection(selectedCardData.TileId, tileId);
+        }
+
+        selectedCardData.CardId = -1;
+    }
+
+    private void CorrectCardsSelection(int firstCardTileId, int secondCardTileId)
+    {
+        if (!_cardsDict.ContainsKey(firstCardTileId) || !_cardsDict.ContainsKey(secondCardTileId))
+            return;
+
+        DOVirtual.DelayedCall(1, () =>
+        {
+            _cardsDict[firstCardTileId].Destroy();
+            _cardsDict[secondCardTileId].Destroy();
+            _cardsDict.Remove(firstCardTileId);
+            _cardsDict.Remove(secondCardTileId);
+        });
+    }
+
+    private void WrongSelection(int firstCardTileId, int secondCardTileId)
+    {
+        DOVirtual.DelayedCall(1, () =>
+        {
+            _cardsDict[firstCardTileId].HideCard();
+            _cardsDict[secondCardTileId].HideCard();
+        });
+    }
+}
+
+public struct SelectedCardData
+{
+    public int CardId;
+    public int TileId;
 }
