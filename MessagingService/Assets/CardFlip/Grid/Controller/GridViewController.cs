@@ -30,8 +30,8 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
     {
         base.Show(model);
 
-        _gridSize.x = 4;
-        _gridSize.y = 4;
+        _gridSize.x = 5;
+        _gridSize.y = 6;
 
         _tilesDict = new Dictionary<int, RectTransform>();
         _cardsDict = new Dictionary<int, CardView>();
