@@ -10,4 +10,5 @@ public class GridViewRefs : BaseUIViewRefs
     public ComboViewController ComboViewController;
     public TextMeshProUGUI MatchesCount;
     public TextMeshProUGUI TurnsCount;
+    public DBString DBGameStateData;
 }

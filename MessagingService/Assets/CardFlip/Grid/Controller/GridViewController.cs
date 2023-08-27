@@ -13,11 +13,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
     private int _matchesCount;
     private int _turnsCount;
 
-    private void Start()
-    {
-        Show();
-    }
-
+    
     public override void RegisterEvents()
     {
     }

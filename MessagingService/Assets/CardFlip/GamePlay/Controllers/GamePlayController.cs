@@ -29,3 +29,12 @@ public class GamePlayController : MonoBehaviour
         GameEvents.DoFireShowView(Views.MainMenuView);
     }
 }
+
+public enum GameMode
+{
+    Easy = 0,
+    Medium,
+    Hard,
+    VeryHard,
+    ExtremeHard
+}
