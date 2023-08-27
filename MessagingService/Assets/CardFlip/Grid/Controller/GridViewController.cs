@@ -32,7 +32,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
 
         var gridInitialData = (GridInitialData)model;
 
-        _gridSize = _ViewRefs.GridViewConfigs.GridGameModeData.FirstOrDefault(x => x.GameMode == gridInitialData.GameMode).GridSize;
+        _gameState.GameMode = gridInitialData.GameMode;
 
         _tilesDict = new Dictionary<int, RectTransform>();
         _cardsDict = new Dictionary<int, CardView>();
@@ -41,8 +41,6 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         selectedCardData.CardId = -1;
         selectedCardData.TileId = -1;
 
-        CalculateCardSize();
-        SpawnGrid();
         LoadState(gridInitialData.isResumeGame);
         GameStart();
     }
@@ -52,17 +50,23 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         if (isResumeGame)
         {
             _gameState = JsonConvert.DeserializeObject<GameState>(_ViewRefs.DBGameStateData.GetValue());
-
+            _gridSize = _ViewRefs.GridViewConfigs.GridGameModeData.FirstOrDefault(x => x.GameMode == _gameState.GameMode).GridSize;
+            CalculateCardSize();
+            SpawnGrid();
             SpawnCards(_gameState.GridState);
 
             _matchesCount = _gameState.MatchesCount;
-            _ViewRefs.MatchesCount.text = _matchesCount.ToString();
-
             _turnsCount = _gameState.TurnsCount;
-            _ViewRefs.TurnsCount.text = _turnsCount.ToString();
+
+            SetMatchesCount();
+            SetTurnsCount();
         }
         else
         {
+            _gridSize = _ViewRefs.GridViewConfigs.GridGameModeData.FirstOrDefault(x => x.GameMode == _gameState.GameMode).GridSize;
+
+            CalculateCardSize();
+            SpawnGrid();
             GenerateCards();
         }
     }
@@ -170,9 +174,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         }
 
         _turnsCount++;
-        _ViewRefs.TurnsCount.text = _turnsCount.ToString();
-
-        _gameState.TurnsCount = _turnsCount;
+        SetTurnsCount();
 
         if (cardId == selectedCardData.CardId)
         {
@@ -196,9 +198,7 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         GameEvents.DoFireCorrectSelection();
 
         _matchesCount++;
-        _ViewRefs.MatchesCount.text = _matchesCount.ToString();
-
-        _gameState.MatchesCount = _matchesCount;
+        SetMatchesCount();
 
         DOVirtual.DelayedCall(1, () =>
         {
@@ -246,6 +246,18 @@ public class GridViewController : BaseUIViewController<GridViewRefs>, IGridCard
         GameEvents.DoFireShowView(Views.MainMenuView);
     }
 
+    private void SetMatchesCount()
+    {
+        _ViewRefs.MatchesCount.text = _matchesCount.ToString();
+        _gameState.MatchesCount = _matchesCount;
+    }
+
+    private void SetTurnsCount()
+    {
+        _ViewRefs.TurnsCount.text = _turnsCount.ToString();
+        _gameState.TurnsCount = _turnsCount;
+    }
+
     private void ClearGameState()
     {
         _ViewRefs.DBGameStateData.SetValue("");
@@ -267,6 +279,7 @@ public struct SelectedCardData
 
 public struct GameState
 {
+    public GameMode GameMode;
     public int MatchesCount;
     public int TurnsCount;
     public Dictionary<int, int> GridState;
